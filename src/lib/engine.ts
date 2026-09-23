@@ -124,7 +124,7 @@ const MIN_SPEED_STANDARD_DEVIATION_MS = 10;
 /** The minimum weight a part of a question can have towards a score, relative to the number of parts the question is scored on. */
 const MIN_QUESTION_PART_WEIGHT = 0.05;
 
-/** How much the accuracy of an answer affects the speed score. 0 means not at all, 1 means the speed score is multiplied by the accuracy (e.g. a completely inaccurate answer would result in a speed score of 0 even if the answer was very fast). */
+/** How much the accuracy of an answer affects the speed score. 0 means not at all, 1 means the speed score's deviation from 0.5 is multiplied by the accuracy (e.g. a completely inaccurate answer would result in a neutral speed score of 0.5 even if the answer was very fast). */
 const ACCURACY_WEIGHT_FOR_SPEED_RATING = 1;
 
 /** The minimum accuracy a human must achieve on a question for their speed to be considered in the question's speed statistics. */
@@ -547,13 +547,13 @@ abstract class Question<Answer> extends Entity {
 			);
 		const zScore =
 			(answerTimeMs - this.speedStats.mean) / this.speedStats.standardDeviation;
-		return 1 - 1 / (1 + Math.exp(-zScore)); // Sigmoid function to map z-score to [0, 1]
+		return 1 / (1 + Math.exp(zScore)); // Sigmoid function to map z-score to [0, 1]
 	}
 
 	/** Calculates a rating for a human's speed in answering this question between 0 and 1, weighted by the accuracy of their answer. */
 	calculateWeightedSpeedScore(answerTimeMs: number, accuracy: number): number {
 		const speedScore = this.calculatePureSpeedScore(answerTimeMs);
-		return speedScore * (1 - ACCURACY_WEIGHT_FOR_SPEED_RATING * (1 - accuracy));
+		return speedScore - (speedScore - 0.5) * ACCURACY_WEIGHT_FOR_SPEED_RATING * (1 - accuracy)
 	}
 
 	getDiscreteParts(
