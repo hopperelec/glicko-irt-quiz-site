@@ -11,13 +11,19 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && biome check ./src",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch && biome check ./src --watch",
 		"format": "biome check ./src --write",
-		"format:watch": "biome check ./src --write --watch"
+		"format:watch": "biome check ./src --write --watch",
+		"db:push": "bun --bun drizzle-kit push"
+	},
+	"dependencies": {
+		"drizzle-orm": "^1.0.0-rc.4"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.14",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/kit": "^2.63.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@types/bun": "^1.4.2",
+		"drizzle-kit": "^1.0.0-rc.4",
 		"postcss": "^8.5.28",
 		"postcss-preset-env": "^11.5.3",
 		"svelte": "^5.56.1",
