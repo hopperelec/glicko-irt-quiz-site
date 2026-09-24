@@ -13,5 +13,14 @@
 		"moduleResolution": "bundler",
 		"types": ["bun"]
 	},
-	"include": ["drizzle.config.ts"]
+	"include": [
+		"vite.config.ts",
+		"drizzle.config.ts",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte",
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/env.d.ts",
+		".svelte-kit/non-ambient.d.ts"
+	]
 }
