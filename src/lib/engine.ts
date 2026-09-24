@@ -553,7 +553,10 @@ abstract class Question<Answer> extends Entity {
 	/** Calculates a rating for a human's speed in answering this question between 0 and 1, weighted by the accuracy of their answer. */
 	calculateWeightedSpeedScore(answerTimeMs: number, accuracy: number): number {
 		const speedScore = this.calculatePureSpeedScore(answerTimeMs);
-		return speedScore - (speedScore - 0.5) * ACCURACY_WEIGHT_FOR_SPEED_RATING * (1 - accuracy)
+		return (
+			speedScore -
+			(speedScore - 0.5) * ACCURACY_WEIGHT_FOR_SPEED_RATING * (1 - accuracy)
+		);
 	}
 
 	getDiscreteParts(
